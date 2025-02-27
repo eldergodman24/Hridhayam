@@ -9,6 +9,7 @@ import bgImage from "../assets/section-1.png";
 import bgImage2 from "../assets/section-2.png";
 import bgImage3 from "../assets/section-4.png";
 import video from "../assets/WEBSITE.mp4";
+import SummaryApi from "../common/apiConfig.js";
 import "../App.css";
 
 const home = () => {
@@ -97,8 +98,8 @@ const home = () => {
           className="section5"
           title="BEST OF HRIDHAYAM"
           images={[
-            "/src/assets/best-1.jpg",
-            "/src/assets/best-2.jpg",
+            bgImage,
+            bgImage,
             "/src/assets/best-3.jpg",
             "/src/assets/best-4.jpg",
           ]}

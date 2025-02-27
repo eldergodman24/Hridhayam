@@ -1,115 +1,114 @@
-const backendDomain = "https://jwells-3xuh.onrender.com";
+const backendDomain = "https://hridhayam.onrender.com";
 
 const SummaryApi = {
   category: {
     url: `${backendDomain}/product/category`,
-    method: "get"
+    method: "get",
   },
   discount: {
     url: `${backendDomain}/product/discount`,
-    method: "get"
+    method: "get",
   },
   categoryProduct: {
     url: `${backendDomain}/product/`,
-    method: "get"
+    method: "get",
   },
   productDetails: {
     url: `${backendDomain}/product/info/`,
-    method: "get"
+    method: "get",
   },
   login: {
     url: `${backendDomain}/user/login`,
-    method: "post"
+    method: "post",
   },
   logout: {
     url: `${backendDomain}/user/logout`,
-    method: "post"
+    method: "post",
   },
   register: {
     url: `${backendDomain}/user/register`,
-    method: "post"
+    method: "post",
   },
   userProfile: {
     url: `${backendDomain}/user`,
-    method: "post"
+    method: "post",
   },
   updateProfile: {
     url: `${backendDomain}/user/update`,
-    method: "put"
+    method: "put",
   },
   addToCart: {
     url: `${backendDomain}/cart/add`,
-    method: "post"
+    method: "post",
   },
   removeFromCart: {
     url: `${backendDomain}/cart/remove`,
-    method: "delete"
+    method: "delete",
   },
   getCartQuantity: {
     url: `${backendDomain}/cart/quantity`,
-    method: "post"
+    method: "post",
   },
   showCart: {
     url: `${backendDomain}/cart/show`,
-    method: "post"
+    method: "post",
   },
   fetchOrders: {
     url: `${backendDomain}/order`,
-    method: "post"
+    method: "post",
   },
   fetchProducts: {
     url: `${backendDomain}/admin/product`,
-    method: "post"
+    method: "post",
   },
   addProduct: {
     url: `${backendDomain}/admin/product/add`,
-    method: "post"
+    method: "post",
   },
   updateProduct: {
     url: `${backendDomain}/admin/product/update`,
-    method: "put"
+    method: "put",
   },
   removeProduct: {
     url: `${backendDomain}/admin/product/remove`,
-    method: "delete"
+    method: "delete",
   },
   customizeDesign: {
     url: `${backendDomain}/contact/designForm`,
-    method: "post"
+    method: "post",
   },
   checkout: {
     url: `${backendDomain}/contact/checkout`,
-    method: "post"
+    method: "post",
   },
   createOrder: {
     url: `${backendDomain}/order/create`,
-    method: "post"
+    method: "post",
   },
   getAllOrders: {
     url: `${backendDomain}/admin/orders`,
-    method: "get"
+    method: "get",
   },
   updateOrder: {
     url: `${backendDomain}/admin/order/status/`,
-    method: "put"
+    method: "put",
   },
   getMyOrders: {
     url: `${backendDomain}/order/user`,
-    method: "post"
+    method: "post",
   },
   getOrderDetails: {
     url: `${backendDomain}/order/`,
-    method: "get"
+    method: "get",
   },
   payment: {
     url: `${backendDomain}/order/payment`,
-    method: "post"
+    method: "post",
   },
   verifyPayment: {
     url: `${backendDomain}/order/verifyPayment`,
-    method: "post"
-  }
-
+    method: "post",
+  },
 };
 
 export default SummaryApi;

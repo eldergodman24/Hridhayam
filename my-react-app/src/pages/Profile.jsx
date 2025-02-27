@@ -186,7 +186,7 @@ const Profile = () => {
                                             </button>
                                         </form>
                                     ) : null}
-
+{/* 
                                     {userRole === 'admin' && (
                                         // <div className="mt-4">
                                         //     <button
@@ -196,7 +196,7 @@ const Profile = () => {
                                         //         {showAdminContent ? 'Back to Profile' : 'Open Admin Dashboard'}
                                         //     </button>
                                         // </div>
-                                    )}
+                                    )} */}
                                 </div>
                             </div>
                             <div className="p-4 border-t">

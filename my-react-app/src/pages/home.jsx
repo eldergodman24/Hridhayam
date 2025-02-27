@@ -7,6 +7,15 @@ import {
 import BestOfHridhayamSection from "../components/BestOfHridhayamSection";
 import bgImage from "../assets/section-1.png";
 import best1 from "../assets/best1.jpg";
+import best2 from "../assets/best2.jpg";
+import best3 from "../assets/best3.jpg";
+import best4 from "../assets/best4.jpg";
+import carousel1 from "../assets/carousel-1.png";
+import carousel2 from "../assets/carousel-2.png";
+import carousel3 from "../assets/carousel-3.png";
+import carousel4 from "../assets/carousel-4.png";
+import carousel5 from "../assets/carousel-5.png";
+import carousel6 from "../assets/carousel-6.png";
 import bgImage2 from "../assets/section-2.png";
 import bgImage3 from "../assets/section-4.png";
 import video from "../assets/WEBSITE.mp4";
@@ -76,12 +85,12 @@ const home = () => {
           className="section3"
           title="SPECIAL COLLECTION"
           images={[
-            "/src/assets/carousel-1.png",
-            "/src/assets/carousel-2.png",
-            "/src/assets/carousel-3.png",
-            "/src/assets/carousel-4.png",
-            "/src/assets/carousel-5.png",
-            "/src/assets/carousel-6.png",
+            carousel1,
+            carousel2,
+            carousel3,
+            carousel4,
+            carousel5,
+            carousel6,
           ]}
           description="Discover Hridhayam’s exquisite craftsmanship—timeless elegance, intricate designs, and pure sophistication. Elevate your style with our exclusive jewelry, crafted to shine as bright as you!"
         />
@@ -98,12 +107,7 @@ const home = () => {
         <BestOfHridhayamSection
           className="section5"
           title="BEST OF HRIDHAYAM"
-          images={[
-            best1,
-            "/src/assets/best2.jpg",
-            "/src/assets/best3.jpg",
-            "/src/assets/best4.jpg",
-          ]}
+          images={[best1, best2, best3, best4]}
           link="https://www.google.com"
         />
       </div>

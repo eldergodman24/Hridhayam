@@ -17,8 +17,7 @@ const PORT = process.env.PORT || 3000;
 server.use(cookieParser());
 server.use(express.json());
 const allowedOrigins = [
-  'https://jwells-1.onrender.com',
-  'https://jwells-qfcn.vercel.app'
+  'https://hridhayam-1.onrender.com'
 ];
 
 server.use(cors({

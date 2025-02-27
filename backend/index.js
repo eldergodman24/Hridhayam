@@ -19,7 +19,7 @@ server.use(express.json());
 
 server.use(
   cors({
-    origin: "www.hridhayam.in",
+    origin: "https://hridhayam.in",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Accept"],

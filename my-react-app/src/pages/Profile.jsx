@@ -188,24 +188,24 @@ const Profile = () => {
                                     ) : null}
 
                                     {userRole === 'admin' && (
-                                        <div className="mt-4">
-                                            <button
-                                                onClick={() => setShowAdminContent(!showAdminContent)}
-                                                className="px-4 py-2 bg-[#41444B] text-white rounded-md hover:bg-black transition-colors"
-                                            >
-                                                {showAdminContent ? 'Back to Profile' : 'Open Admin Dashboard'}
-                                            </button>
-                                        </div>
+                                        // <div className="mt-4">
+                                        //     <button
+                                        //         onClick={() => setShowAdminContent(!showAdminContent)}
+                                        //         className="px-4 py-2 bg-[#41444B] text-white rounded-md hover:bg-black transition-colors"
+                                        //     >
+                                        //         {showAdminContent ? 'Back to Profile' : 'Open Admin Dashboard'}
+                                        //     </button>
+                                        // </div>
                                     )}
                                 </div>
                             </div>
                             <div className="p-4 border-t">
-                                <button
+                                {/* <button
                                     onClick={() => setShowOrders(true)}
                                     className="px-4 py-2 bg-[#41444B] text-white rounded-md hover:bg-black transition-colors"
                                 >
                                     View My Orders
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     ) : (

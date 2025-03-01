@@ -41,13 +41,13 @@ function Dashboard({ onBackToProfile }) {
                 <span className="material-icons-outlined"></span>
                 <span>Products</span>
               </button>
-              <button
+{/*               <button
                 onClick={() => setActiveTab("orders")}
                 className={`w-full px-4 py-3 rounded-lg flex items-center space-x-3 transition-all 
                   ${activeTab === "orders" ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}
               >
                 <span>Orders</span>
-              </button>
+              </button> */}
             </nav>
           </div>
         </aside>

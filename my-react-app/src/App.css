@@ -415,6 +415,11 @@ footer {
   .container{
     display: inline-block;
   }
+  .section5 img{
+    height: 150px;
+    width: 100px;
+    margin-right: 10px;
+  }
   .nav-links {
     position: absolute;
     height: 70vh;

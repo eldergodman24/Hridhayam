@@ -54,6 +54,10 @@ export const router = createBrowserRouter([
             {
                 path: '/contact',
                 element: <Contact />
+            },
+            {
+                path: '/privacy policy',
+                element: <PrivacyPolicy/>
             }
 
         ]

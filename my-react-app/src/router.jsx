@@ -12,6 +12,7 @@ import OurStory from './pages/our_story.jsx';
 import Contact from './pages/contact.jsx';
 import Discounts from './pages/discounts.jsx';
 import Checkout from './pages/checkout.jsx';
+import PrivacyPolicy from './pages/privacypolicy.jsx';
 
 
 export const router = createBrowserRouter([

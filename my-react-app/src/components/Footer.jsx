@@ -32,8 +32,8 @@ function Footer() {
     <div className="flex-1 items-start text-left">
       <h3 className="text-lg font-medium mb-4">CONTACT</h3>
       <div className="space-y-2">
-        <p className="text-sm">hridhayamjewels@gmail.com</p>
-        <p className="text-sm">+91 9994227430</p>
+        <p>hridhayamjewels@gmail.com</p>
+        <p>+91 9994227430</p>
       </div>
     </div>
   </div>

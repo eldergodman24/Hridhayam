@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
@@ -7,18 +8,17 @@ function Footer() {
       <div className="flex flex-wrap justify-start pb-10 items-start w-full">
   {/* Left Column */}
   <div className="w-full lg:w-1/2 flex justify-center lg:justify-center">
-    <h1 className="text-5xl font-light font-[cinzel]">HRIDHAYAM</h1>
+    <h1 className="text-5xl mt-10 font-light font-[cinzel]">HRIDHAYAM</h1>
   </div>
 
   {/* Right Column */}
   <div className="w-full lg:w-1/2 flex flex-column font-[lato] gap-8">
     {/* About Section */}
-    <div className="flex-1 items-start text-left">
+    <div className="flex-1 font-[lato] items-start text-left">
       <h3 className="text-lg font-medium mb-4">ABOUT</h3>
-      <div className="space-y-2">
-        <p className="text-sm">Information about the company.</p>
-        <p className="text-sm">Additional details if needed.</p>
-      </div>
+        <Link to='/privacy policy'><p >Privacy Policy</p></Link>
+        <Link to='/terms of service'><p >Terms of Service</p></Link>
+        <p><Link to='/shipping details'>Shipping, Returns, Refunds and Cancellation Policy</Link></p>
     </div>
 
     {/* Social Section */}
@@ -32,8 +32,8 @@ function Footer() {
     <div className="flex-1 items-start text-left">
       <h3 className="text-lg font-medium mb-4">CONTACT</h3>
       <div className="space-y-2">
-        <p className="text-sm">hridhayam@gmail.com</p>
-        <p className="text-sm">+91 123456789</p>
+        <p className="text-sm">hridhayamjewels@gmail.com</p>
+        <p className="text-sm">+91 9994227430</p>
       </div>
     </div>
   </div>

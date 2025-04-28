@@ -1,6 +1,9 @@
 import React from 'react';
 
 const PrivacyPolicy = () => {
+    React.useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return(<div className='w-full h-full flex flex-col justify-center items-center gap-10 py-24'>
         <h1 className='font-[cinzel] font-[500] text-4xl text-black'>PRIVACY POLICY</h1>
         <p className='font-[lato] text-[#41444B] w-3/4'>Welcome to Hridayam. Your privacy matters to us, and we’re committed to safeguarding your 

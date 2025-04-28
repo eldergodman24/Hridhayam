@@ -13,6 +13,8 @@ import Contact from './pages/contact.jsx';
 import Discounts from './pages/discounts.jsx';
 import Checkout from './pages/checkout.jsx';
 import PrivacyPolicy from './pages/privacypolicy.jsx';
+import ShippingDetails from './pages/shippingdetails.jsx';
+import Termsofservice from './pages/termsofservice.jsx';
 
 
 export const router = createBrowserRouter([
@@ -60,7 +62,15 @@ export const router = createBrowserRouter([
                 path: '/privacy policy',
                 element: <PrivacyPolicy/>
             }
-
+            ,
+            {
+                path: '/shipping details',
+                element: <ShippingDetails/>
+            },
+            {
+                path: '/terms of service',
+                element: <Termsofservice/>
+            }
         ]
     },
     {

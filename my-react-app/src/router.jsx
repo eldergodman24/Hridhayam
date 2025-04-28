@@ -14,7 +14,7 @@ import Discounts from './pages/discounts.jsx';
 import Checkout from './pages/checkout.jsx';
 import PrivacyPolicy from './pages/privacypolicy.jsx';
 import ShippingDetails from './pages/shippingdetails.jsx';
-import Termsofservice from './pages/termsofservice.jsx';
+import Termsofservice from './pages/terms of service.jsx';
 
 
 export const router = createBrowserRouter([

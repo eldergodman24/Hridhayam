@@ -169,6 +169,7 @@ const Cart = () => {
         let totalBalancePayment = 0;
 
         cartItems.forEach(item => {
+            if (!item || !item.productId) return;
             const itemTotal = Math.round(item.productId.price * item.quantity);
             if (item.isPreOrder) {
                 totalPartialPayment += Math.round(item.partialPayment);
@@ -234,69 +235,86 @@ const Cart = () => {
                         <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
                             <div className="space-y-6">
                                 {cartItems.map((item) => (
-                                    <div key={item._id} className="rounded-lg bg-white p-4 shadow-sm md:p-6">
-                                        <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                                            <div className="shrink-0 md:order-1">
-                                                <img className="h-20 w-20" src={item.productId.image} alt={item.productId.name} />
-                                            </div>
-
-                                            <div className="flex items-center justify-between md:order-3 md:justify-end">
-                                                <div className="flex items-center">
-                                                    <button onClick={() => handleQuantityChange(item._id, -1)} className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-[#41444B] cursor-pointer">
-                                                        <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 18 2">
-                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
-                                                        </svg>
-                                                    </button>
-                                                    <input
-                                                        type="text"
-                                                        className="w-10 shrink-0 border-0 bg-transparent text-center text-black"
-                                                        value={item.quantity}
-                                                        readOnly
-                                                    />
-                                                    <button onClick={() => handleQuantityChange(item._id, 1)} className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-[#41444B] cursor-pointer">
-                                                        <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 18 18">
-                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                                <div className="text-end md:w-32">
-                                                    <p className="text-base font-bold text-black">₹{Math.round(item.productId.price * item.quantity)}</p>
-                                                </div>
-                                            </div>
-
-                                            <div className="w-full min-w-0 flex-1 md:order-2 md:max-w-md">
-                                                <p className="text-base font-medium text-gray-900">{item.productId.name}</p>
-                                                <div className="flex items-center gap-4 mt-4">
-                                                    <button
-                                                        onClick={() => handleRemoveItem(item._id)}
-                                                        className="inline-flex items-center text-sm font-medium text-red-600 hover:underline"
-                                                    >
-                                                        <svg className="me-1.5 h-5 w-5" fill="none" viewBox="0 0 24 24">
-                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18 17.94 6M18 18 6.06 6" />
-                                                        </svg>
-                                                        Remove
-                                                    </button>
-                                                </div>
+                                    (!item || !item.productId) ? (
+                                        <div key={item._id || Math.random()} className="rounded-lg bg-white p-4 shadow-sm md:p-6">
+                                            <div className="flex items-center justify-between">
+                                                <div className="text-gray-500 italic">Product no longer available</div>
+                                                <button
+                                                    onClick={() => handleRemoveItem(item._id)}
+                                                    className="inline-flex items-center text-sm font-medium text-red-600 hover:underline"
+                                                >
+                                                    <svg className="me-1.5 h-5 w-5" fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18 17.94 6M18 18 6.06 6" />
+                                                    </svg>
+                                                    Remove
+                                                </button>
                                             </div>
                                         </div>
-                                        {item.isPreOrder && (
-                                            <div className="w-full bg-amber-50 p-2 rounded-md mt-2">
-                                                <p className="text-amber-800 text-sm font-medium">Pre-order Item</p>
-                                                <div className="flex justify-between text-sm">
-                                                    <span>Partial Payment:</span>
-                                                    <span>₹{Math.round(item.partialPayment)}</span>
+                                    ) : (
+                                        <div key={item._id} className="rounded-lg bg-white p-4 shadow-sm md:p-6">
+                                            <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+                                                <div className="shrink-0 md:order-1">
+                                                    <img className="h-20 w-20" src={item.productId.image} alt={item.productId.name} />
                                                 </div>
-                                                <div className="flex justify-between text-sm">
-                                                    <span>Balance Due:</span>
-                                                    <span>₹{Math.round((item.productId.price * item.quantity) - item.partialPayment)}</span>
+
+                                                <div className="flex items-center justify-between md:order-3 md:justify-end">
+                                                    <div className="flex items-center">
+                                                        <button onClick={() => handleQuantityChange(item._id, -1)} className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-[#41444B] cursor-pointer">
+                                                            <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 18 2">
+                                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
+                                                            </svg>
+                                                        </button>
+                                                        <input
+                                                            type="text"
+                                                            className="w-10 shrink-0 border-0 bg-transparent text-center text-black"
+                                                            value={item.quantity}
+                                                            readOnly
+                                                        />
+                                                        <button onClick={() => handleQuantityChange(item._id, 1)} className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-[#41444B] cursor-pointer">
+                                                            <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 18 18">
+                                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                    <div className="text-end md:w-32">
+                                                        <p className="text-base font-bold text-black">₹{Math.round(item.productId.price * item.quantity)}</p>
+                                                    </div>
                                                 </div>
-                                                <div className="flex justify-between text-sm mt-1">
-                                                    <span>Total Price:</span>
-                                                    <span>₹{Math.round(item.productId.price * item.quantity)}</span>
+
+                                                <div className="w-full min-w-0 flex-1 md:order-2 md:max-w-md">
+                                                    <p className="text-base font-medium text-gray-900">{item.productId.name}</p>
+                                                    <div className="flex items-center gap-4 mt-4">
+                                                        <button
+                                                            onClick={() => handleRemoveItem(item._id)}
+                                                            className="inline-flex items-center text-sm font-medium text-red-600 hover:underline"
+                                                        >
+                                                            <svg className="me-1.5 h-5 w-5" fill="none" viewBox="0 0 24 24">
+                                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18 17.94 6M18 18 6.06 6" />
+                                                            </svg>
+                                                            Remove
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        )}
-                                    </div>
+                                            {item.isPreOrder && (
+                                                <div className="w-full bg-amber-50 p-2 rounded-md mt-2">
+                                                    <p className="text-amber-800 text-sm font-medium">Pre-order Item</p>
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Partial Payment:</span>
+                                                        <span>₹{Math.round(item.partialPayment)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Balance Due:</span>
+                                                        <span>₹{Math.round((item.productId.price * item.quantity) - item.partialPayment)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-sm mt-1">
+                                                        <span>Total Price:</span>
+                                                        <span>₹{Math.round(item.productId.price * item.quantity)}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )
                                 ))}
                             </div>
                         </div>
@@ -330,7 +348,7 @@ const Cart = () => {
                                 </div>
 
                                 <div
-                                    onClick={() => navigate("/checkout")}  // Changed from setIsModalOpen(true)
+                                    onClick={() => navigate("/checkout")}
                                     className="w-full rounded-lg bg-black px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900"
                                 >
                                     Proceed to Checkout

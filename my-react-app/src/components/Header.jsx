@@ -280,24 +280,24 @@ function Header() {
         <div className="font-[cinzel] font-thin text-black text-[36px]">HRIDHAYAM</div>
         <nav>
           <ul id="menu" className="inline-block justify-center mt-[30px] list-none nav-links">
-            <li className="inline block relative text-[#41444B] hover:text-[#FFD700] font-[cinzel] font-medium text-[12px]" ><Link to='/'>HOME</Link></li>
+            <li className="inline block relative text-[#41444B] hover:text-[#FFD700] font-[cinzel] font-medium text-[12px]" ><Link to='/' onClick={toggleMenu}>HOME</Link></li>
             <DropdownMenu
               title="ALL COLLECTIONS"
               items={apiData}
               endpoints={'collection'}
               renderItem={(item, index) => (
-                <Link to="/collection" state={{ collectionName: item }}>
+                <Link to="/collection" state={{ collectionName: item }} onClick={toggleMenu}>
                   {item}
                 </Link>
               )}
             />
             {/* Add Discounts link */}
             <li className="inline block relative text-[#41444B] hover:text-[#FFD700] font-[cinzel] font-medium text-[12px]">
-              <Link to="/discounts">DISCOUNTS</Link>
+              <Link to="/discounts" onClick={toggleMenu}>DISCOUNTS</Link>
             </li>
-            <li className="inline block relative text-[#41444B] hover:text-[#FFD700] font-[cinzel] font-medium text-[12px]"><Link to={"/our-story"}>OUR STORY</Link></li>
-            <li className="inline block relative text-[#41444B] hover:text-[#FFD700] font-[cinzel] font-medium text-[12px]"><Link to='/customize-design'>CUSTOMIZE DESIGN</Link></li>
-            <li className="inline block relative text-[#41444B] hover:text-[#FFD700] font-[cinzel] font-medium text-[12px]" ><Link to='/contact' >CONTACT</Link></li>
+            <li className="inline block relative text-[#41444B] hover:text-[#FFD700] font-[cinzel] font-medium text-[12px]"><Link to={"/our-story"} onClick={toggleMenu}>OUR STORY</Link></li>
+            <li className="inline block relative text-[#41444B] hover:text-[#FFD700] font-[cinzel] font-medium text-[12px]"><Link to='/customize-design' onClick={toggleMenu}>CUSTOMIZE DESIGN</Link></li>
+            <li className="inline block relative text-[#41444B] hover:text-[#FFD700] font-[cinzel] font-medium text-[12px]" ><Link to='/contact' onClick={toggleMenu}>CONTACT</Link></li>
             {/* Desktop profile icon */}
 
           </ul>

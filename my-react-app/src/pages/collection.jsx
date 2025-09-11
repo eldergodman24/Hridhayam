@@ -20,6 +20,7 @@ const Collection = () => {
   });
   const [shouldResetFilters, setShouldResetFilters] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [gridCols, setGridCols] = useState(3); // Add grid column state
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -77,8 +78,8 @@ const Collection = () => {
   };
 
   const getPaginatedProducts = () => {
-    const start = (state.currentPage - 1) * 9;
-    return state.products.slice(start, start + 9);
+    const start = (state.currentPage - 1) * 24;
+    return state.products.slice(start, start + 24);
   };
 
   const filterProductsByPriceRange = (products, priceRange, statusFilters) => {
@@ -116,16 +117,70 @@ const Collection = () => {
       return <NoProductsFound onResetFilters={resetFilters} />;
     }
 
+    // Grid col classes
+    const gridClass = {
+      2: "grid-cols-1 sm:grid-cols-2",
+      3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+      4: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
+    }[gridCols];
+
     return (
       <>
-        <div className="py-12 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8">
+        <div className="flex flex-row-reverse pr-20 gap-2 mt-6 mb-6">
+          {/* 2 Cols SVG */}
+          <button
+            className={`px-2 py-2 rounded border flex items-center justify-center ${gridCols === 2 ? "bg-black" : "bg-white"}`}
+            onClick={() => setGridCols(2)}
+            aria-label="2 columns"
+          >
+            <svg width="28" height="35" viewBox="0 0 28 20" fill="none">
+              <rect x="2" y="2" width="10" height="10" rx="2" fill={gridCols === 2 ? "#fff" : "#222"} />
+              <rect x="16" y="2" width="10" height="10" rx="2" fill={gridCols === 2 ? "#fff" : "#222"}/>
+              <rect x="2" y="16" width="10" height="10" rx="2" fill={gridCols === 2 ? "#fff" : "#222"} />
+              <rect x="16" y="16" width="10" height="10" rx="2" fill={gridCols === 2 ? "#fff" : "#222"}/>
+            </svg>
+          </button>
+          {/* 3 Cols SVG */}
+          <button
+            className={`px-2 py-2 rounded border flex items-center justify-center ${gridCols === 3 ? "bg-black" : "bg-white"}`}
+            onClick={() => setGridCols(3)}
+            aria-label="3 columns"
+          >
+            <svg width="36" height="35" viewBox="0 0 36 20" fill="none">
+              <rect x="2" y="2" width="8" height="8" rx="2" fill={gridCols === 3 ? "#fff" : "#222"} />
+              <rect x="14" y="2" width="8" height="8" rx="2" fill={gridCols === 3 ? "#fff" : "#222"} />
+              <rect x="26" y="2" width="8" height="8" rx="2" fill={gridCols === 3 ? "#fff" : "#222"} />
+              <rect x="2" y="14" width="8" height="8" rx="2" fill={gridCols === 3 ? "#fff" : "#222"} />
+              <rect x="14" y="14" width="8" height="8" rx="2" fill={gridCols === 3 ? "#fff" : "#222"} />
+              <rect x="26" y="14" width="8" height="8" rx="2" fill={gridCols === 3 ? "#fff" : "#222"} />
+            </svg>
+          </button>
+          {/* 4 Cols SVG */}
+          <button
+            className={`px-2 py-2 rounded border flex items-center justify-center ${gridCols === 4 ? "bg-black" : "bg-white"}`}
+            onClick={() => setGridCols(4)}
+            aria-label="4 columns"
+          >
+            <svg width="44" height="35" viewBox="0 0 44 20" fill="none">
+              <rect x="2" y="2" width="7" height="7" rx="2" fill={gridCols === 4 ? "#fff" : "#222"} />
+              <rect x="13" y="2" width="7" height="7" rx="2" fill={gridCols === 4 ? "#fff" : "#222"} />
+              <rect x="24" y="2" width="7" height="7" rx="2" fill={gridCols === 4 ? "#fff" : "#222"} />
+              <rect x="35" y="2" width="7" height="7" rx="2" fill={gridCols === 4 ? "#fff" : "#222"} />
+              <rect x="2" y="13" width="7" height="7" rx="2" fill={gridCols === 4 ? "#fff" : "#222"} />
+              <rect x="13" y="13" width="7" height="7" rx="2" fill={gridCols === 4 ? "#fff" : "#222"} />
+              <rect x="24" y="13" width="7" height="7" rx="2" fill={gridCols === 4 ? "#fff" : "#222"} />
+              <rect x="35" y="13" width="7" height="7" rx="2" fill={gridCols === 4 ? "#fff" : "#222"} />
+            </svg>
+          </button>
+        </div>
+        <div className={`py-12 max-w-6xl mx-auto grid gap-x-4 gap-y-8 ${gridClass}`}>
           {paginatedProducts.map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}
         </div>
         <Pagination
           currentPage={state.currentPage}
-          totalPages={Math.ceil(state.products.length / 9)}
+          totalPages={Math.ceil(state.products.length / 24)}
           onPrevPage={() => handlePageChange(state.currentPage - 1)}
           onNextPage={() => handlePageChange(state.currentPage + 1)}
           onPageSelect={handlePageChange}

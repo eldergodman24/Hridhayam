@@ -12,11 +12,16 @@ const ProductDetails = ({
   description,
   productId,
   inStock,
-  discountPercentage = 0
+  discountPercentage = 0,
+  image2,
+  image3,
+  image4
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [cartQuantity, setCartQuantity] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(image);
+  const [size, setSize] = useState('');
   const navigate = useNavigate();
 
   // Calculate original price from discounted price
@@ -209,15 +214,29 @@ const ProductDetails = ({
   return (
     <div className="max-w-7xl mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 px-4 py-8">
-        {/* Product Image */}
+        {/* Product Images Gallery */}
         <div className="relative">
-          <img
-            className="w-full h-[600px] object-cover rounded-lg shadow-lg"
-            src={image}
-            alt={productName}
-          />
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-2 mb-2">
+              {/* Thumbnails for up to 4 images */}
+              
+            </div>
+            <img
+              className="w-full h-[600px] object-cover rounded-lg shadow-lg"
+              src={selectedImage || image}
+              alt={productName}
+            />
+            {[image, image2, image3, image4].filter(Boolean).map((imgSrc, idx) => (
+                <img
+                  key={idx}
+                  src={imgSrc}
+                  alt={productName + ' thumbnail ' + (idx + 1)}
+                  className={`w-20 h-20 object-cover rounded border cursor-pointer ${selectedImage === imgSrc ? 'ring-2 ring-black' : ''}`}
+                  onClick={() => setSelectedImage(imgSrc)}
+                />
+              ))}
+          </div>
         </div>
-
         {/* Product Info */}
         <div className="flex flex-col space-y-6">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{productName}</h1>
@@ -236,7 +255,7 @@ const ProductDetails = ({
           <div className="space-y-4">
             <p className="text-gray-600 text-lg">{description}</p>
 
-            {/* Quantity Selector */}
+            {/* Quantity and Size Selector */}
             <div className="flex items-center space-x-4">
               <h3 className="font-medium text-gray-900 text-lg">Quantity:</h3>
               <div className="flex items-center border-2 border-gray-300 rounded-lg bg-white">
@@ -256,6 +275,33 @@ const ProductDetails = ({
                   +
                 </button>
               </div>
+              {/* Size Selector for Rings */}
+              {productName === 'Rings' && (
+                <select
+                  className="ml-4 border-2 border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900 focus:outline-none"
+                  value={size || ''}
+                  onChange={e => setSize(e.target.value)}
+                >
+                  <option value="" disabled>Select Size</option>
+                  {[...Array(21)].map((_, i) => {
+                    const val = 3 + i * 0.5;
+                    return <option key={val} value={val}>{val % 1 === 0 ? val : val.toFixed(1)}</option>;
+                  })}
+                </select>
+              )}
+              {productName === 'Bangles' && (
+                <select
+                  className="ml-4 border-2 border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900 focus:outline-none"
+                  value={size || ''}
+                  onChange={e => setSize(e.target.value)}
+                >
+                  <option value="" disabled>Select Size</option>
+                  {[...Array(13)].map((_, i) => {
+                    const val = 2 + i;
+                    return <option key={val} value={val}>{val % 1 === 0 ? val : val.toFixed(1)}</option>;
+                  })}
+                </select>
+              )}
             </div>
 
             {/* Stock Status */}
@@ -327,6 +373,13 @@ const ProductDetails = ({
                 </span>
               </div>
             )}
+
+            {/* Simple Dropdowns Below Add to Cart */}
+            <div className="mt-6 space-y-2">
+              <DropdownPara num={1} title="Shipping & Delivery" content="We offer fast and reliable shipping. Orders are processed within 1-2 business days and delivered within 5-7 business days depending on your location." />
+              <DropdownPara num={2} title="Returns & Exchanges" content="If you are not satisfied with your purchase, you can return or exchange the product within 14 days of delivery. Please ensure the product is unused and in original packaging." />
+              <DropdownPara num={3} title="Care Instructions" content="To keep your jewelry looking its best, avoid contact with water, perfumes, and chemicals. Store in a dry place and clean gently with a soft cloth." />
+            </div>
           </div>
         </div>
       </div>
@@ -335,13 +388,43 @@ const ProductDetails = ({
         className="section5 mt-16"
         title="YOU MAY ALSO LIKE"
         images={[
-          '/src/assets/best1.jpg',
-          '/src/assets/best2.jpg',
-          '/src/assets/best3.jpg',
-          '/src/assets/best4.jpg'
+          '/src/assets/best-1.jpg',
+          '/src/assets/best-2.jpg',
+          '/src/assets/best-3.jpg',
+          '/src/assets/best-4.jpg'
         ]}
         link="https://www.google.com"
       />
+    </div>
+  );
+};
+
+// DropdownPara component
+const DropdownPara = ({ num, title, content }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border rounded-md overflow-hidden transition-all duration-300 shadow-sm">
+      <button
+        className="w-full text-left text-black px-4 py-2 hover:bg-gray-200 font-medium focus:outline-none flex justify-between items-center shadow"
+        onClick={() => setOpen((prev) => !prev)}
+      >
+        {title}
+        <span className={`transform transition-transform duration-300 ${open ? 'rotate-180' : ''}`}>▼</span>
+      </button>
+      <div
+        style={{
+          maxHeight: open ? 200 : 0,
+          opacity: open ? 1 : 0,
+          transition: 'max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s',
+        }}
+        className="bg-white px-4"
+      >
+        {open && (
+          <p className="py-3 text-gray-700">
+            {content}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

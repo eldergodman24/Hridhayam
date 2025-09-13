@@ -16,7 +16,13 @@ const ProductModal = ({
     category: '',
     description: '',
     image: '',
+    image2: '',
+    image3: '',
+    image4: '',
     imageFile: null,
+    imageFile2: null,
+    imageFile3: null,
+    imageFile4: null,
     discountPercentage: 0,
     quantity: 0,
     inStock: true,
@@ -51,7 +57,13 @@ const ProductModal = ({
         category: product.category || '',
         description: product.description || '',
         image: product.image || '',
+        image2: product.image2 || '',
+        image3: product.image3 || '',
+        image4: product.image4 || '',
         imageFile: null,
+        imageFile2: null,
+        imageFile3: null,
+        imageFile4: null,
         discountPercentage: product.discountPercentage || 0,
         quantity: product.quantity || 0,
         inStock: product.inStock !== undefined ? product.inStock : true,
@@ -67,7 +79,13 @@ const ProductModal = ({
         category: '',
         description: '',
         image: '',
+        image2: '',
+        image3: '',
+        image4: '',
         imageFile: null,
+        imageFile2: null,
+        imageFile3: null,
+        imageFile4: null,
         discountPercentage: 0,
         quantity: 0,
         inStock: true,
@@ -87,20 +105,20 @@ const ProductModal = ({
     };
   }, [isOpen]);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e, slot = 1) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const image = URL.createObjectURL(file);
+      const image = URL.createObjectURL(file);
+      if (slot === 1) {
         setPreviewImage(image);
-        setFormData({
-          ...formData,
-          imageFile: file,
-          image: image
-        });
-      };
-      reader.readAsDataURL(file);
+        setFormData({ ...formData, imageFile: file, image: image });
+      } else if (slot === 2) {
+        setFormData({ ...formData, imageFile2: file, image2: image });
+      } else if (slot === 3) {
+        setFormData({ ...formData, imageFile3: file, image3: image });
+      } else if (slot === 4) {
+        setFormData({ ...formData, imageFile4: file, image4: image });
+      }
     }
   };
 
@@ -144,8 +162,20 @@ const ProductModal = ({
       // Handle image upload
       if (formData.imageFile) {
         formDataToSend.append('image', formData.imageFile);
+        if (formData.imageFile2) formDataToSend.append('image2', formData.imageFile2);
+        if (formData.imageFile3) formDataToSend.append('image3', formData.imageFile3);
+        if (formData.imageFile4) formDataToSend.append('image4', formData.imageFile4);
       } else if (formData.image && typeof formData.image === 'string' && !formData.image.startsWith('blob:')) {
         formDataToSend.append('existingImage', formData.image);
+      }
+      if (formData.image2 && typeof formData.image2 === 'string' && !formData.image2.startsWith('blob:')) {
+        formDataToSend.append('existingImage2', formData.image2);
+      }
+      if (formData.image3 && typeof formData.image3 === 'string' && !formData.image3.startsWith('blob:')) {
+        formDataToSend.append('existingImage3', formData.image3);
+      }
+      if (formData.image4 && typeof formData.image4 === 'string' && !formData.image4.startsWith('blob:')) {
+        formDataToSend.append('existingImage4', formData.image4);
       }
 
       const url = product ? SummaryApi.updateProduct.url : SummaryApi.addProduct.url;
@@ -336,41 +366,53 @@ const ProductModal = ({
               <div className="col-span-1">
                 <div className="mb-4">
                   <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Product Image
+                    Product Images (up to 4)
                   </label>
-                  <div className="border rounded-md p-2 bg-gray-50">
-                    <img
-                      src={previewImage || formData.image || 'placeholder-image-url'}
-                      alt="Product"
-                      className="w-full h-48 object-contain rounded-md mb-2"
-                    />
-                    <label className="flex items-center justify-center w-full">
-                      <span className="inline-block px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600 transition-colors">
-                        {previewImage ? 'Change Image' : 'Choose Image'}
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageChange}
-                          className="hidden"
+                  <div className="grid grid-cols-2 gap-2">
+                    {[1,2,3,4].map((slot) => (
+                      <div key={slot} className="border rounded-md p-2 bg-gray-50 flex flex-col items-center">
+                        <img
+                          src={
+                            slot === 1 ? (previewImage || formData.image || 'placeholder-image-url') :
+                            slot === 2 ? (formData.image2 || 'placeholder-image-url') :
+                            slot === 3 ? (formData.image3 || 'placeholder-image-url') :
+                            slot === 4 ? (formData.image4 || 'placeholder-image-url') :
+                            'placeholder-image-url'
+                          }
+                          alt={`Product ${slot}`}
+                          className="w-full h-24 object-contain rounded-md mb-2"
                         />
-                      </span>
-                    </label>
-                    {previewImage && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setPreviewImage(null);
-                          setFormData({
-                            ...formData,
-                            imageFile: null,
-                            image: null
-                          });
-                        }}
-                        className="mt-2 text-sm text-red-600 hover:text-red-800"
-                      >
-                        Remove image
-                      </button>
-                    )}
+                        <label className="inline-block px-2 py-1 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600 transition-colors text-xs">
+                          {((slot === 1 && (previewImage || formData.image)) || (slot === 2 && formData.image2) || (slot === 3 && formData.image3) || (slot === 4 && formData.image4)) ? 'Change' : 'Choose'} Image {slot}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={e => handleImageChange(e, slot)}
+                            className="hidden"
+                          />
+                        </label>
+                        {((slot === 1 && (previewImage || formData.image)) || (slot === 2 && formData.image2) || (slot === 3 && formData.image3) || (slot === 4 && formData.image4)) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (slot === 1) {
+                                setPreviewImage(null);
+                                setFormData({ ...formData, imageFile: null, image: '' });
+                              } else if (slot === 2) {
+                                setFormData({ ...formData, imageFile2: null, image2: '' });
+                              } else if (slot === 3) {
+                                setFormData({ ...formData, imageFile3: null, image3: '' });
+                              } else if (slot === 4) {
+                                setFormData({ ...formData, imageFile4: null, image4: '' });
+                              }
+                            }}
+                            className="mt-1 text-xs text-red-600 hover:text-red-800"
+                          >
+                            Remove
+                          </button>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div className="mb-4">

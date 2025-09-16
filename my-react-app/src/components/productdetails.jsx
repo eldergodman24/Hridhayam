@@ -411,10 +411,10 @@ const ProductDetails = ({
         className="section5 mt-16"
         title="YOU MAY ALSO LIKE"
         images={[
-          '/src/assets/best1.jpg',
-          '/src/assets/best2.jpg',
-          '/src/assets/best3.jpg',
-          '/src/assets/best4.jpg'
+          '/src/assets/best-1.jpg',
+          '/src/assets/best-2.jpg',
+          '/src/assets/best-3.jpg',
+          '/src/assets/best-4.jpg'
         ]}
         link="https://www.google.com"
       />

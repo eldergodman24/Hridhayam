@@ -21,13 +21,21 @@ const ProductDetails = ({
   const [quantity, setQuantity] = useState(1);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [selectedImage, setSelectedImage] = useState(image);
+  const [selectedImage2, setSelectedImage2] = useState(image2);
+  const [selectedImage3, setSelectedImage3] = useState(image3);
+  const [selectedImage4, setSelectedImage4] = useState(image4);
   const [size, setSize] = useState('');
+  const [backchain, setBackchain] = useState(false);
   const navigate = useNavigate();
 
   // Calculate original price from discounted price
-  const discountedPrice = Math.round(Number(price));
+  let adjustedPrice = Number(price);
+  if ((productName === 'Necklace' || productName === 'Haaram') && backchain) {
+    adjustedPrice += 1000;
+  }
+  const discountedPrice = Math.round(adjustedPrice);
   const originalPrice = discountPercentage > 0
-    ? Math.round(Number(price / (1 - discountPercentage / 100)))
+    ? Math.round(Number(adjustedPrice / (1 - discountPercentage / 100)))
     : discountedPrice;
 
   // Calculate partial payment for pre-order (rounded to whole number)
@@ -289,6 +297,7 @@ const ProductDetails = ({
                   })}
                 </select>
               )}
+              {/* Size Selector for Bangles */}
               {productName === 'Bangles' && (
                 <select
                   className="ml-4 border-2 border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900 focus:outline-none"
@@ -301,6 +310,20 @@ const ProductDetails = ({
                     return <option key={val} value={val}>{val % 1 === 0 ? val : val.toFixed(1)}</option>;
                   })}
                 </select>
+              )}
+              {/* Size Selector for Necklace/Haaram */}
+            
+              {/* Backchain Checkbox for Necklace/Haaram */}
+              {(productName === 'Necklace' || productName === 'Haaram') && (
+                <label className="ml-4 flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={backchain}
+                    onChange={e => setBackchain(e.target.checked)}
+                    className="form-checkbox h-5 w-5 text-blue-600"
+                  />
+                  <span className="text-gray-900">Backchain (+₹1000)</span>
+                </label>
               )}
             </div>
 

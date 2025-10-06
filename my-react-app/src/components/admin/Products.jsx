@@ -262,6 +262,7 @@ const Products = () => {
                   <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
                     Category
                   </th>
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">Subcategories</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider">
                     Actions
                   </th>
@@ -307,6 +308,7 @@ const Products = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-800">{product.category}</td>
+                    <td className="px-4 py-2">{product.subCategory || '-'}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex space-x-3">
                         <button

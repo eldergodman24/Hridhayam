@@ -6,10 +6,10 @@ import {
 } from "../components/Section";
 import BestOfHridhayamSection from "../components/BestOfHridhayamSection";
 import bgImage from "../assets/section-1.png";
-import best1 from "../assets/best1.jpg";
-import best2 from "../assets/best2.jpg";
-import best3 from "../assets/best3.jpg";
-import best4 from "../assets/best4.jpg";
+import best1 from "../assets/best-1.jpg";
+import best2 from "../assets/best-2.jpg";
+import best3 from "../assets/best-3.jpg";
+import best4 from "../assets/best-4.jpg";
 import carousel1 from "../assets/carousel-1.png";
 import carousel2 from "../assets/carousel-2.png";
 import carousel3 from "../assets/carousel-3.png";

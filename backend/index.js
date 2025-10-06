@@ -16,10 +16,24 @@ const server = express();
 const PORT = process.env.PORT || 3000;
 server.use(cookieParser());
 server.use(express.json());
+const allowedOrigins = [
+  'https://hridhayam.in',
+  'http://localhost:5173'
+];
 
 server.use(
   cors({
-    origin: "https://hridhayam.in",
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps, curl, or Postman)
+      if (!origin) {
+        callback(null, true);
+      } else if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(null, true); // Instead of blocking, allow all origins for development
+        // To restrict in production, use: callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Accept"],

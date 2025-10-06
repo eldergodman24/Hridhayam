@@ -5,32 +5,62 @@ import SummaryApi from '../common/apiConfig';
 import BestOfHridhayamSection from '../components/BestOfHridhayamSection';
 import { FaShoppingCart } from 'react-icons/fa';
 
-const ProductDetails = ({
-  image,
-  productName,
-  price, // This is now the discounted price
-  description,
-  productId,
-  inStock,
-  discountPercentage = 0,
-  image2,
-  image3,
-  image4
-}) => {
+const ProductDetails = ({ productId }) => {
+  const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [cartQuantity, setCartQuantity] = useState(0);
-  const [selectedImage, setSelectedImage] = useState(image);
-  const [selectedImage2, setSelectedImage2] = useState(image2);
-  const [selectedImage3, setSelectedImage3] = useState(image3);
-  const [selectedImage4, setSelectedImage4] = useState(image4);
+  const [selectedImage, setSelectedImage] = useState('');
   const [size, setSize] = useState('');
   const [backchain, setBackchain] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    async function fetchProductDetails() {
+      try {
+        const response = await fetch(`${SummaryApi.productDetails.url}${productId}`);
+        const data = await response.json();
+        if (data && data.data) {
+          setProduct(data.data);
+          setSelectedImage(data.data.image || '');
+        }
+        console.log('Fetched product details:', data.data);
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+      }
+    }
+    if (productId) fetchProductDetails();
+  }, [productId]);
+
+  useEffect(() => {
+    if (!product) return;
+    async function fetchCartQuantity() {
+      const userId = localStorage.getItem('userId');
+      if (!userId) return;
+      try {
+        const response = await fetch(SummaryApi.getCartQuantity.url, {
+          method: SummaryApi.getCartQuantity.method,
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ userId, productId })
+        });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const result = await response.json();
+        if (result.success) setCartQuantity(result.quantity);
+      } catch (error) {
+        console.error('Error fetching cart quantity:', error);
+      }
+    }
+    fetchCartQuantity();
+  }, [product, productId]);
+
+  if (!product) return <div>Loading...</div>;
+
+  const { image, image2, image3, image4, name, price, description, inStock, discountPercentage = 0 } = product;
+
   // Calculate original price from discounted price
   let adjustedPrice = Number(price);
-  if ((productName === 'Necklace' || productName === 'Haaram') && backchain) {
+  if ((name === 'Necklace' || name === 'Haaram') && backchain) {
     adjustedPrice += 1000;
   }
   const discountedPrice = Math.round(adjustedPrice);
@@ -40,37 +70,6 @@ const ProductDetails = ({
 
   // Calculate partial payment for pre-order (rounded to whole number)
   const partialPayment = Math.round(discountedPrice / 2);
-
-  const fetchCartQuantity = async () => {
-    const userId = localStorage.getItem('userId');
-    if (!userId) return;
-
-    try {
-      const response = await fetch(SummaryApi.getCartQuantity.url, {
-        method: SummaryApi.getCartQuantity.method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ userId, productId })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      if (result.success) {
-        setCartQuantity(result.quantity);
-      }
-    } catch (error) {
-      console.error('Error fetching cart quantity:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCartQuantity();
-  }, []);
 
   const handleAddToCart = async () => {
     setIsLoading(true);
@@ -106,7 +105,7 @@ const ProductDetails = ({
       if (result.success) {
         toast.success('Product added to cart successfully!');
         setQuantity(1); // Reset quantity back to 1 after successful addition
-        fetchCartQuantity(); // Refresh cart quantity after adding item
+        // fetchCartQuantity(); // Refresh cart quantity after adding item
       } else {
         toast.error(result.message || 'Failed to add product to cart');
       }
@@ -232,22 +231,25 @@ const ProductDetails = ({
             <img
               className="w-full h-[600px] object-cover rounded-lg shadow-lg"
               src={selectedImage || image}
-              alt={productName}
+              alt={name}
             />
-            {[image, image2, image3, image4].filter(Boolean).map((imgSrc, idx) => (
+            <div className="flex self-start gap-5 mb-2">
+              {[image, image2, image3, image4].filter(Boolean).map((imgSrc, idx) => (
                 <img
                   key={idx}
                   src={imgSrc}
-                  alt={productName + ' thumbnail ' + (idx + 1)}
+                  alt={name + ' thumbnail ' + (idx + 1)}
                   className={`w-20 h-20 object-cover rounded border cursor-pointer ${selectedImage === imgSrc ? 'ring-2 ring-black' : ''}`}
                   onClick={() => setSelectedImage(imgSrc)}
                 />
               ))}
+            </div>
+            
           </div>
         </div>
         {/* Product Info */}
         <div className="flex flex-col space-y-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{productName}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{name}</h1>
           <div className="flex items-center space-x-2">
             {discountPercentage > 0 ? (
               <>
@@ -260,7 +262,7 @@ const ProductDetails = ({
             )}
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 w-full">
             <p className="text-gray-600 text-lg">{description}</p>
 
             {/* Quantity and Size Selector */}
@@ -284,7 +286,7 @@ const ProductDetails = ({
                 </button>
               </div>
               {/* Size Selector for Rings */}
-              {productName === 'Rings' && (
+              {name === 'Rings' && (
                 <select
                   className="ml-4 border-2 border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900 focus:outline-none"
                   value={size || ''}
@@ -298,7 +300,7 @@ const ProductDetails = ({
                 </select>
               )}
               {/* Size Selector for Bangles */}
-              {productName === 'Bangles' && (
+              {name === 'Bangles' && (
                 <select
                   className="ml-4 border-2 border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900 focus:outline-none"
                   value={size || ''}
@@ -314,7 +316,7 @@ const ProductDetails = ({
               {/* Size Selector for Necklace/Haaram */}
             
               {/* Backchain Checkbox for Necklace/Haaram */}
-              {(productName === 'Necklace' || productName === 'Haaram') && (
+              {(name === 'Necklace' || name === 'Haaram') && (
                 <label className="ml-4 flex items-center space-x-2">
                   <input
                     type="checkbox"
@@ -443,7 +445,7 @@ const DropdownPara = ({ num, title, content }) => {
         className="bg-white px-4"
       >
         {open && (
-          <p className="py-3 text-gray-700">
+          <p className="py-3 z-11 text-gray-700">
             {content}
           </p>
         )}

@@ -14,6 +14,7 @@ const ProductModal = ({
     name: '',
     price: '',
     category: '',
+    subCategory: '',
     description: '',
     image: '',
     image2: '',
@@ -55,6 +56,7 @@ const ProductModal = ({
         name: product.name || '',
         price: product.price || '',
         category: product.category || '',
+        subCategory: product.subCategory || '',
         description: product.description || '',
         image: product.image || '',
         image2: product.image2 || '',
@@ -77,6 +79,7 @@ const ProductModal = ({
         name: '',
         price: '',
         category: '',
+        subCategory: '',
         description: '',
         image: '',
         image2: '',
@@ -148,6 +151,7 @@ const ProductModal = ({
       formDataToSend.append('name', formData.name);
       formDataToSend.append('price', formData.price);
       formDataToSend.append('category', formData.category);
+      formDataToSend.append('subCategory', formData.subCategory);
       formDataToSend.append('description', formData.description);
       // Ensure discount is sent as a number, defaulting to 0 if invalid
       formDataToSend.append('discountPercentage', Number(formData.discountPercentage) || 0);
@@ -291,6 +295,18 @@ const ProductModal = ({
                       )}
                     </div>
                   )}
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Subcategory
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.subCategory}
+                    onChange={(e) => setFormData({ ...formData, subCategory: e.target.value })}
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-800"
+                    placeholder="Enter subcategory"
+                  />
                 </div>
                 <div className="mb-4">
                   <div className="flex items-center mb-2">

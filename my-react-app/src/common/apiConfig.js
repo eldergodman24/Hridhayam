@@ -1,4 +1,6 @@
-const backendDomain = "https://hridhayam.onrender.com";
+const backendDomain = window.location.hostname === "localhost"
+  ? "http://localhost:3000"
+  : "https://hridhayam.onrender.com";
 
 const SummaryApi = {
   category: {

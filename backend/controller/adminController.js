@@ -24,6 +24,9 @@ export default class AdminController {
             console.log('Received quantity:', quantity); // Debug log
 
             const image = req.files.image && req.files.image[0];
+            const image2 = req.files.image2 && req.files.image2[0];
+            const image3 = req.files.image3 && req.files.image3[0];
+            const image4 = req.files.image4 && req.files.image4[0];
 
             if (!image) {
                 return res.status(400).json({
@@ -44,17 +47,54 @@ export default class AdminController {
             // Convert buffer to base64 for Cloudinary
             const b64 = Buffer.from(image.buffer).toString('base64');
             const dataURI = `data:${image.mimetype};base64,${b64}`;
-
-            const image1 = await cloudinary.uploader.upload(dataURI, {
+            const image1Upload = await cloudinary.uploader.upload(dataURI, {
                 resource_type: 'image',
                 folder: 'products'
             });
+            const b642 = Buffer.from(image2.buffer).toString('base64');
+            const dataURI2 = `data:${image2.mimetype};base64,${b642}`;
+            const image2Upload = await cloudinary.uploader.upload(dataURI2, {
+                resource_type: 'image',
+                folder: 'products'
+            });
+            const b643 = Buffer.from(image3.buffer).toString('base64');
+            const dataURI3 = `data:${image3.mimetype};base64,${b643}`;
+            const image3Upload = await cloudinary.uploader.upload(dataURI3, {
+                resource_type: 'image',
+                folder: 'products'
+            });
+            const b644 = Buffer.from(image4.buffer).toString('base64');
+            const dataURI4 = `data:${image4.mimetype};base64,${b644}`;
+            const image4Upload = await cloudinary.uploader.upload(dataURI4, {
+                resource_type: 'image',
+                folder: 'products'
+            });
+            // Upload image2, image3, image4 if present
+            let image2Url = undefined, image3Url = undefined, image4Url = undefined;
+            if (image2) {
+                const b64_2 = Buffer.from(image2.buffer).toString('base64');
+                const dataURI2 = `data:${image2.mimetype};base64,${b64_2}`;
+                image2Url = (await cloudinary.uploader.upload(dataURI2, { resource_type: 'image', folder: 'products' })).secure_url;
+            }
+            if (image3) {
+                const b64_3 = Buffer.from(image3.buffer).toString('base64');
+                const dataURI3 = `data:${image3.mimetype};base64,${b64_3}`;
+                image3Url = (await cloudinary.uploader.upload(dataURI3, { resource_type: 'image', folder: 'products' })).secure_url;
+            }
+            if (image4) {
+                const b64_4 = Buffer.from(image4.buffer).toString('base64');
+                const dataURI4 = `data:${image4.mimetype};base64,${b64_4}`;
+                image4Url = (await cloudinary.uploader.upload(dataURI4, { resource_type: 'image', folder: 'products' })).secure_url;
+            }
 
             const product = new productModal({
                 name,
                 price,
                 description,
-                image: image1.secure_url,
+                image: image1Upload.secure_url,
+                image2: image2Upload.secure_url,
+                image3: image3Upload.secure_url,
+                image4: image4Upload.secure_url,
                 category,
                 discountPercentage: Number(discountPercentage) || 0,
                 inStock: parsedQuantity > 0,
@@ -146,21 +186,52 @@ export default class AdminController {
                 quantity: Number(quantity) || 0
             };
 
-            console.log('Update data:', updateData); // Debug log
-
-            if (req.files && req.files.image) {
-                const image = req.files.image[0];
-
-                // Convert buffer to base64 for Cloudinary
-                const b64 = Buffer.from(image.buffer).toString('base64');
-                const dataURI = `data:${image.mimetype};base64,${b64}`;
-
-                const cloudinaryResponse = await cloudinary.uploader.upload(dataURI, {
-                    resource_type: 'image',
-                    folder: 'products'
-                });
-
-                updateData.image = cloudinaryResponse.secure_url;
+            // Handle image updates
+            if (req.files) {
+                // Main image
+                if (req.files.image && req.files.image[0]) {
+                    const image = req.files.image[0];
+                    const b64 = Buffer.from(image.buffer).toString('base64');
+                    const dataURI = `data:${image.mimetype};base64,${b64}`;
+                    const cloudinaryResponse = await cloudinary.uploader.upload(dataURI, {
+                        resource_type: 'image',
+                        folder: 'products'
+                    });
+                    updateData.image = cloudinaryResponse.secure_url;
+                }
+                // image2
+                if (req.files.image2 && req.files.image2[0]) {
+                    const image2 = req.files.image2[0];
+                    const b64_2 = Buffer.from(image2.buffer).toString('base64');
+                    const dataURI2 = `data:${image2.mimetype};base64,${b64_2}`;
+                    const cloudinaryResponse2 = await cloudinary.uploader.upload(dataURI2, {
+                        resource_type: 'image',
+                        folder: 'products'
+                    });
+                    updateData.image2 = cloudinaryResponse2.secure_url;
+                }
+                // image3
+                if (req.files.image3 && req.files.image3[0]) {
+                    const image3 = req.files.image3[0];
+                    const b64_3 = Buffer.from(image3.buffer).toString('base64');
+                    const dataURI3 = `data:${image3.mimetype};base64,${b64_3}`;
+                    const cloudinaryResponse3 = await cloudinary.uploader.upload(dataURI3, {
+                        resource_type: 'image',
+                        folder: 'products'
+                    });
+                    updateData.image3 = cloudinaryResponse3.secure_url;
+                }
+                // image4
+                if (req.files.image4 && req.files.image4[0]) {
+                    const image4 = req.files.image4[0];
+                    const b64_4 = Buffer.from(image4.buffer).toString('base64');
+                    const dataURI4 = `data:${image4.mimetype};base64,${b64_4}`;
+                    const cloudinaryResponse4 = await cloudinary.uploader.upload(dataURI4, {
+                        resource_type: 'image',
+                        folder: 'products'
+                    });
+                    updateData.image4 = cloudinaryResponse4.secure_url;
+                }
             }
 
             const updatedProduct = await productModal.findByIdAndUpdate(

@@ -32,7 +32,13 @@ export default class ProductController {
             return res.status(200).json({
                 success: true,
                 message: "Product retrieved successfully",
-                data: product
+                data: {
+                    ...product.toObject(),
+                    image: product.image,
+                    image2: product.image2,
+                    image3: product.image3,
+                    image4: product.image4
+                }
             })
         } catch (err) {
             return res.sendStatus(500)
@@ -48,7 +54,10 @@ export default class ProductController {
                 price: product.price,
                 discountPercentage: product.discountPercentage,
                 inStock: product.inStock,
-                image: product.image[0]
+                image: product.image,
+                image2: product.image2,
+                image3: product.image3,
+                image4: product.image4
             }))
             return res.json({ success: true, data: products })
 
@@ -68,7 +77,10 @@ export default class ProductController {
                 price: product.price,
                 discountPercentage: product.discountPercentage,
                 inStock: product.inStock,
-                image: product.image[0]
+                image: product.image,
+                image2: product.image2,
+                image3: product.image3,
+                image4: product.image4
             }));
             console.log(formattedProducts);
 
